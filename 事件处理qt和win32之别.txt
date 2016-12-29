@@ -1,0 +1,37 @@
+Qt 中有很多种事件：鼠标事件、键盘事件、大小改变的事件、位置移动的事件等等。如何处理这些事件，实际有两种选择：
+
+1.所有事件对应一个事件处理函数，在这个事件处理函数中用一个很大的分支语句进行选择，其代表作就是 win32 API 的WndProc()函数：
+
+LRESULT CALLBACK WndProc(HWND hWnd,
+                         UINT message,
+                         WPARAM wParam,
+                         LPARAM lParam)
+
+在这个函数中，我们需要使用switch语句，选择message参数的类型进行处理，典型代码是：
+
+switch(message)
+{
+    case WM_PAINT:
+        // ...
+        break;
+    case WM_DESTROY:
+        // ...
+        break;
+    ...
+}
+
+2.每一种事件对应一个事件处理函数。Qt 就是使用的这么一种机制： 
+
+mouseEvent()
+keyPressEvent()
+…
+Qt 具有这么多种事件处理函数，肯定有一个地方对其进行分发，否则，Qt 怎么知道哪一种事件调用哪一个事件处理函数呢？
+这个分发的函数，就是event()。显然，当QMouseEvent产生之后，event()函数将其分发给mouseEvent()事件处理器进行处理。
+
+
+
+
+
+
+
+
